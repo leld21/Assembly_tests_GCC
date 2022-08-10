@@ -11,7 +11,7 @@ main:
     mov     rbp, rsp
     sub rsp, 16
 
-    mov rdi, 3 * 4
+    mov rdi, 5 * 4
 	call malloc@plt
 
 	mov [rip + vector], rax

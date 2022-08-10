@@ -15,10 +15,12 @@ for(int i=0;i<n;i++){
 
 }
 
-int main(int argc, char **argv[]){
+int main(int argc, char *argv[]){
 
-FILE * filePointer; 
-filePointer = fopen("entrada.txt", "r");
+FILE * filePointer;
+FILE * filePointer2;
+filePointer = fopen(argv[1], "r");
+filePointer2 = fopen(argv[2], "w");
 
 int quant;
 fscanf(filePointer, "%i", &quant);
@@ -27,19 +29,20 @@ for(int i=0;i<quant;i++){
     int *vetor;
     fscanf(filePointer, "%i", &n);
     vetor=malloc(sizeof(int)*n);
-    printf("[%d] ",i);
+    fprintf(filePointer2,"[%d] ",i);
     for(int j=0;j<n;j++){
         fscanf(filePointer,"%i",&vetor[j]);
     }
     bubblesort(vetor,n);
     for(int j=0;j<n;j++){
         if(j==n-1){
-            printf("%d\n",vetor[j]);
+            fprintf(filePointer2,"%d\n",vetor[j]);
         }else{
-            printf("%d ",vetor[j]);
+            fprintf(filePointer2,"%d ",vetor[j]);
         }
     }     
 }
 fclose(filePointer);
+fclose(filePointer2);
 
 }
