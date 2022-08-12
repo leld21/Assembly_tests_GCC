@@ -21,7 +21,6 @@ main:
 	cmp rcx, 5
     je .setfor1
     mov [rbp - 4], rcx
-    // pra multiplicar precisa primeiro colocar o valor do //multiplicando no EAX
     mov eax, 2
     mul rcx
     mov rdx, [rip + vector]
@@ -35,27 +34,29 @@ main:
 .for1bubblesort:
 	cmp rcx, 5
 	je .set2
-	inc rcx
 	jmp .setfor2
 .setfor2:
-	mov [rbp - 8],rcx
-	inc DWORD PTR [rbp - 8]
-	mov r8,[rbp - 8]
+	mov r8,rcx
+	inc r8
 	jmp .for2bubblesort
 .for2bubblesort:
 	cmp r8, 5
-	je .for1bubblesort
+	je .for2done
 	mov r9, [rip + vector]
-	cmp [r9 + rcx * 4],[r9 + r8 * 4]
-	ja .if
-	inc r8
-	jmp for2bubblesort
-.if
-	mov [rbp - 12],[r9 + rcx * 4]
-	mov [r9 + rcx * 4],[r9 + r8 * 4]
-	mov [r9 + rcx * 4],[rbp - 12]
+	mov rax, [r9 + rcx * 4]
+	mov rsi, [r9 + r8 * 4]
+	cmp eax,esi
+	jl .if
 	inc r8
 	jmp .for2bubblesort
+.if:
+    mov [r9 + rcx * 4],esi
+	mov [r9 + r8 * 4],eax
+	inc r8
+	jmp .for2bubblesort
+.for2done:
+	inc rcx
+	jmp .for1bubblesort
 //termina bubblesort
 .set2:
 	mov rcx, 0
