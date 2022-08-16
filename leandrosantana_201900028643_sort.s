@@ -66,9 +66,9 @@ main:
 	// aloca 4*tamanho do vetor
 	// vetor=malloc(sizeof(int)*n);
 
-	mov rax,4
+	mov eax,8
 	mul r15
-	mov rdi, rax
+	mov edi, eax
 	call malloc@plt
 
 	mov [rip + vector], rax
@@ -83,7 +83,7 @@ main:
 	mov rdi, [rbp - 4]
 	lea rsi, [rip+inteiro]
 	mov rdx, [rip + vector]
-	lea rdx, [rdx + r14 * 4]
+	lea rdx, [rdx + r14 * 8]
 	call fscanf@plt
 
 	inc r14
@@ -104,15 +104,15 @@ main:
 	cmp r8, r15
 	je .for2done
 	mov r9, [rip + vector]
-	mov rax, [r9 + rcx * 4]
-	mov rsi, [r9 + r8 * 4]
+	mov rax, [r9 + rcx * 8]
+	mov rsi, [r9 + r8 * 8]
 	cmp eax,esi
 	jg .if
 	inc r8
 	jmp .for2bubblesort
 .if:
-    mov [r9 + rcx * 4],esi
-	mov [r9 + r8 * 4],eax
+    mov [r9 + rcx * 8],esi
+	mov [r9 + r8 * 8],eax
 	inc r8
 	jmp .for2bubblesort
 .for2done:
@@ -134,7 +134,7 @@ main:
 	mov rdi, [rbp - 40]
 	lea rsi, [rip + numeropadrao]
 	mov rdx, [rip + vector]
-	mov rdx, [rdx + r14 * 4]
+	mov rdx, [rdx + r14 * 8]
 	call fprintf@plt
 
 	inc r14
@@ -143,11 +143,8 @@ main:
 	mov rdi, [rbp - 40]
 	lea rsi, [rip + ultimonumero]
 	mov rdx, [rip + vector]
-	mov rdx, [rdx + r14 * 4]
+	mov rdx, [rdx + r14 * 8]
 	call fprintf@plt
-
-	mov rdi, [rip + vector]
-	call free@plt
 
 	inc r14
 	jmp .for22
@@ -155,6 +152,9 @@ main:
 	inc r12
 	jmp .for1
 .cont:
+
+	mov rdi, [rip + vector]
+	call free@plt
 
 	mov rdi, [rbp-4]
 	call fclose@plt
@@ -183,7 +183,7 @@ read:
 write:
 	.string "w"
 inteiro:
-	.string "%li"
+	.string "%ld"
 numero:
 	.string "[%i] "
 numeropadrao:
